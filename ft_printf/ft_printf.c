@@ -1,85 +1,55 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jofilipe <jofilipe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/30 10:21:35 by jofilipe          #+#    #+#             */
-/*   Updated: 2022/12/02 11:45:53 by jofilipe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <ft_printf.h>
 
-#include <stdarg.h>
-#include <unistd.h>
-
-void	ft_printf_char(char c)
+int	ft_checkprintf(char specifier, va_list var)
 {
-	write (1, &c, 1);
-}
+	int	bytes;
 
-void	ft_printf_string(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(*(str + i))
-	{
-		write(1, (str + i), 1);
-		i++;
-	}
-}
-
-int	checkconversion(char str)
-{
-	int	i;
-	char	*conversions;
-
-	i = 0;
-	conversions = "cspdiuxX%";
-	while (*(conversions + i))
-	{
-		if (str == *(conversions + i))
-			return (*(conversions + i));
-		i++;
-	}
-	return (0);
+	bytes = 0;
+	if (specifier == '%')
+		bytes = ft_printf_char('%');
+	else if (specifier == 'c')
+		bytes = ft_printf_char(va_arg(var, int));
+	else if (specifier == 's')
+		bytes = ft_printf_string(va_arg(var, char *));
+	else if (specifier == 'i' || specifier == 'd')
+		bytes = ft_printf_digit(va_arg(var, int));
+	else if (specifier == 'u')
+		bytes = ft_printf_unsigned(va_arg(var, unsigned int));
+	else if (specifier == 'x' || specifier == 'X')
+		bytes = ft_printf_hexa(va_arg(var, unsigned int), specifier); //???????
+	else if (specifier == 'p')
+		bytes = ft_printf_pointer(va_arg(var, unsigned long)); //?????
+	return (bytes);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	int	i;
-	va_list	tmp;
-	char conversion;
+	int	count;
+	va_list var;
 
-	va_start(tmp, str);
-	i = 0;
-	while (*(str + i))
+	va_start (var, str);
+	int	i = 0;
+	count = 0;
+	while (str[i])
 	{
-		if (*(str + i) == '%')
+		if (str[i] == '%' && ft_checkconversion(str[i] + 1))
 		{
+			count += ft_checkprintf(str[i] + 1, var);
 			i++;
-			if (checkconversion(*(str + i)))
-			{
-				conversion = checkconversion(*(str + i));
-				if (conversion == '%')
-					write (1, "%", 1);
-				else if (conversion == 'c')
-					ft_printf_char(va_arg(tmp, char *));
-				else if (conversion == 's')
-					ft_printf_string(va_arg(tmp, char *));
-			}
 		}
-		write(1, (str + i++), 1);
+		else if (str[i] == '%' && !ft_checkconversion(str[i] + 1))
+		{
+			write(1, "es um burro do crl", 19);
+			return (count);
+		}
+		else
+		{
+			write(1, str[i], 1);
+			count++;
+		}
+		i++;
 	}
-	return (i);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc < 2)
-		return (0);
-	ft_printf(*(argv + 1), *(argv + 2));
-	write(1, "\n", 1);
-	return (0);
+	va_end(var);
+	return (count);
 }
