@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jofilipe <jofilipe@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/12/07 10:29:29 by jofilipe          #+#    #+#              #
+#    Updated: 2022/12/07 10:35:02 by jofilipe         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC = ft_checkconversion.c \
 		ft_printf.c \
 		ft_printf_char.c \
@@ -9,7 +21,7 @@ SRC = ft_checkconversion.c \
 
 SRC_OBJ = $(SRC:.c=.o)
 
-NAME = ???????????????
+NAME = libftprintf.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 

@@ -1,4 +1,16 @@
-#include <ft_printf.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jofilipe <jofilipe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 10:29:15 by jofilipe          #+#    #+#             */
+/*   Updated: 2022/12/07 15:50:28 by jofilipe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
 
 int	ft_checkprintf(char specifier, va_list var)
 {
@@ -16,38 +28,32 @@ int	ft_checkprintf(char specifier, va_list var)
 	else if (specifier == 'u')
 		bytes = ft_printf_unsigned(va_arg(var, unsigned int));
 	else if (specifier == 'x' || specifier == 'X')
-		bytes = ft_printf_hexa(va_arg(var, unsigned int), specifier); //???????
+		bytes = ft_printf_hexa(va_arg(var, unsigned int), specifier);
 	else if (specifier == 'p')
-		bytes = ft_printf_pointer(va_arg(var, unsigned long)); //?????
+		bytes = ft_printf_pointer(va_arg(var, unsigned long));
 	return (bytes);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	int	i;
-	int	count;
-	va_list var;
+	int		i;
+	int		count;
+	va_list	var;
 
-	va_start (var, str);
-	int	i = 0;
+	va_start(var, str);
+	i = 0;
 	count = 0;
 	while (str[i])
 	{
-		if (str[i] == '%' && ft_checkconversion(str[i] + 1))
+		if (str[i] == '%' && ft_checkconversion(str[i + 1]))
+			count += ft_checkprintf(str[i++ + 1], var);
+		else if (str[i] == '%' && !ft_checkconversion(str[i + 1]))
 		{
-			count += ft_checkprintf(str[i] + 1, var);
-			i++;
-		}
-		else if (str[i] == '%' && !ft_checkconversion(str[i] + 1))
-		{
-			write(1, "es um burro do crl", 19);
+			count += write(1, "es um burro do crl", 19);
 			return (count);
 		}
 		else
-		{
-			write(1, str[i], 1);
-			count++;
-		}
+			count += write(1, &str[i], 1);
 		i++;
 	}
 	va_end(var);

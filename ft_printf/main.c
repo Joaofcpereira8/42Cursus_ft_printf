@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_digit.c                                  :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jofilipe <jofilipe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 10:28:55 by jofilipe          #+#    #+#             */
-/*   Updated: 2022/12/07 14:22:21 by jofilipe         ###   ########.fr       */
+/*   Created: 2022/12/07 15:19:59 by jofilipe          #+#    #+#             */
+/*   Updated: 2022/12/07 15:20:46 by jofilipe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf_digit(long num)
-{
-	int	count;
+#include <stdio.h>
 
-	count = 0;
-	if (num < 0)
-	{
-		num *= -1;
-		count += ft_printf_char('-');
-	}
-	if (num < 10)
-		count += ft_printf_char(num + '0');
-	else
-	{
-		count += ft_printf_digit(num / 10);
-		count += ft_printf_digit(num % 10);
-	}
-	return (count);
+int	main()
+{
+	char	str[] = "-";
+	int	i;
+
+	//i = printf("%s", str);
+	//printf("%d\n", i);
+	i = ft_printf(" %s ", str);
+	printf("%d\n", i);
+	return (0);
 }
