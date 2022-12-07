@@ -17,6 +17,8 @@ int	ft_printf_digit(long num)
 	int	count;
 
 	count = 0;
+	if (num <= -2147483648)
+		return(write(1, "-2147483648", 11));
 	if (num < 0)
 	{
 		num *= -1;
