@@ -49,7 +49,7 @@ int	ft_printf(const char *str, ...)
 			count += ft_checkprintf(str[i++ + 1], var);
 		else if (str[i] == '%' && !ft_checkconversion(str[i + 1]))
 		{
-			count += write(1, "es um burro do crl", 19);
+			count += write(1, "CONVERSION error", 19);
 			return (count);
 		}
 		else
