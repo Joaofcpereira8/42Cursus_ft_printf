@@ -10,10 +10,6 @@ Key Achievements:
 
 - Implemented support for a variety of format specifiers, including integers, characters, strings, and more.
 
-- Ensured proper handling of flags, width, precision, and other formatting options.
-
-- Conducted extensive testing to validate the accuracy and reliability of the implementation.
-
 Technologies:
 
 - C
